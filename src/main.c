@@ -43,6 +43,10 @@ static void on_activate(GtkApplication *app) {
   gtk_widget_add_css_class(GTK_WIDGET(sidebar), "sidebar");
   gtk_list_box_set_selection_mode(GTK_LIST_BOX(sidebar), GTK_SELECTION_NONE);
 
+  GtkWidget *logo = gtk_image_new_from_file("resources/assets/gtask_logo.png");
+  gtk_widget_set_size_request(logo, 48, 48);
+  GtkWidget *gtask_label = gtk_label_new("Gtask");
+  gtk_widget_add_css_class(gtask_label, "gtask-title");
   GtkWidget *home_btn = touchable("Home", "view-grid-symbolic", "sidebar-btn");
   GtkWidget *tasks_btn = touchable("Tasks", "x-office-calendar-symbolic", "sidebar-btn");
   GtkWidget *projects_btn = touchable("Projects", "send-to-symbolic", "sidebar-btn");
@@ -66,7 +70,9 @@ static void on_activate(GtkApplication *app) {
   gtk_widget_set_hexpand(GTK_WIDGET(change_theme_btn), false); 
 
   gtk_widget_set_size_request(GTK_WIDGET(change_theme_btn), 10, 10);
-
+   
+  gtk_list_box_append(GTK_LIST_BOX(sidebar), logo);
+  gtk_list_box_append(GTK_LIST_BOX(sidebar), gtask_label);
   gtk_list_box_append(GTK_LIST_BOX(sidebar), home_btn); 
   gtk_list_box_append(GTK_LIST_BOX(sidebar), tasks_btn); 
   gtk_list_box_append(GTK_LIST_BOX(sidebar), projects_btn); 

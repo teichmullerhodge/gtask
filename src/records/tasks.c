@@ -74,8 +74,7 @@ uint8_t record_new_task(char *title,
 
         fclose(f);
 
-        printf("Writing to file: %ld|%d|%s|%s|%ld|%s|%s|%d|%s|%s\n", task.id, task.done, task.title, task.description, task.project_id, task.created_at, task.due_date, task.priority, task.tag->name, task.tag->color);
-        
+    
         
         return 0;
 
