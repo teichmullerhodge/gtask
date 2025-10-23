@@ -6,7 +6,7 @@
 #include "pages/home_page.h" 
 #include "layout/layout.h" 
 #include <gtk/gtk.h>
-
+#include "widgets/widget_modal.h" 
 
 static GtkWidget *stack; 
 
@@ -134,11 +134,15 @@ static void on_activate(GtkApplication *app) {
   expand_all(stack);
 
 
+
   gtk_widget_set_halign(GTK_WIDGET(home_page), GTK_ALIGN_FILL);
 
   gtk_window_set_child(GTK_WINDOW(window), main_box);  
   
   gtk_window_present(GTK_WINDOW(window));
+
+  
+
 }
 
 int main(int argc, char **argv) {

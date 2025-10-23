@@ -5,6 +5,8 @@
 #include "../appconfig/appconfig.h" 
 
 
+
+
 void add_task(GtkWidget *task_list, const char *task_name){
   
   GtkWidget *item = create_task_item(task_name);
