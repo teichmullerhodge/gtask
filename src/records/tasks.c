@@ -4,6 +4,8 @@
 #include "../appconfig/appconfig.h" 
 #include "../helpers/date_helpers.h" 
 #include "../records/tags.h" 
+#include "../helpers/string_helpers.h" 
+#include <string.h> 
 
 
 uint8_t record_new_task(char *title, 
@@ -78,4 +80,48 @@ uint8_t record_new_task(char *title,
         
         return 0;
 
+}
+
+
+struct Gtask *parse_tasks(const char *input, size_t *out_count) {
+    printf("At parse tasks\n");
+    char *data = strdup(input); 
+    if (data == NULL) return NULL;
+
+    struct Gtask *tasks = NULL;
+    size_t count = 0;
+
+    char *line = strtok(data, "\n");
+    while (line) {
+        tasks = realloc(tasks, sizeof(struct Gtask) * (count + 1));
+        struct Gtask *t = &tasks[count];
+      
+        char *ptr = line;
+        char *token;
+
+        token = next_token(&ptr, "|"); t->id = strtoull(token, NULL, 10);
+        token = next_token(&ptr, "|"); t->done = (uint8_t)atoi(token);
+        token = next_token(&ptr, "|"); strncpy(t->title, token, sizeof(t->title));
+        token = next_token(&ptr, "|"); 
+        t->description = strdup(token ? token : "");
+
+        token = next_token(&ptr, "|"); t->project_id = strtoull(token, NULL, 10);
+        token = next_token(&ptr, "|"); strncpy(t->created_at, token, sizeof(t->created_at));
+        token = next_token(&ptr, "|"); strncpy(t->due_date, token, sizeof(t->due_date));
+        token = next_token(&ptr, "|"); t->priority = (uint8_t)atoi(token);
+
+        t->tag = malloc(sizeof(struct Gtag));
+        memset(t->tag, 0, sizeof(struct Gtag));
+
+        token = next_token(&ptr, "|"); strncpy(t->tag->name, token ? token : "N/A", sizeof(t->tag->name) - 1);
+        token = next_token(&ptr, "|"); strncpy(t->tag->color, token ? token : "#FFFFFF", sizeof(t->tag->color) - 1);
+
+        count++;
+        line = strtok(NULL, "\n");
+
+    }
+
+    free(data);
+    *out_count = count;
+    return tasks;
 }

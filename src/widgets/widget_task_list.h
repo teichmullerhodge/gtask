@@ -2,19 +2,11 @@
 #define WIDGET_TASK_LIST_H 
 
 #include <gtk/gtk.h> 
-struct Gtask {
 
-  char *id;
-  char *title;
-  bool done;
+void add_task(GtkWidget *task_list, uint64_t task_id, const char *task_name, const char *description, const char *created_at, const char *due_date);
 
-};
+GtkWidget *create_task_item(uint64_t task_id, const char *name, const char *description, const char *created_at, const char *due_date);
 
-
-
-void add_task(GtkWidget *task_list, const char *task_name);
-
-GtkWidget *create_task_item(const char *task_name);
 GtkWidget *tasks_list_new();
 
 

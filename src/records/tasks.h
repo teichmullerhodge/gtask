@@ -1,7 +1,7 @@
 #ifndef TASKS_H
 #define TASKS_H 
 
-
+#include <stdlib.h> 
 #include <stdbool.h> 
 #include <stdint.h>
 #include "tags.h" 
@@ -26,7 +26,10 @@ struct Gtask {
   struct Gtag* tag; 
 };
 
-                    
+
+struct Gtask *parse_tasks(const char *input, size_t *out_count);     
+
+
 
 uint8_t record_new_task(char *title, 
         char *desc, 
