@@ -1,6 +1,6 @@
 #include "appconfig/appconfig.h"
 #include "widgets/widget_touchable.h" 
-#include "state/state.h" 
+#include "state/main_state.h" 
 #include "widgets/widget_config.h" 
 #include "records/tasks.h" 
 #include "pages/home_page.h" 

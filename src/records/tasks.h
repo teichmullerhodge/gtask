@@ -5,6 +5,8 @@
 #include <stdbool.h> 
 #include <stdint.h>
 #include "tags.h" 
+#include <stdbool.h>
+
 
 enum TaskPriority {
   TASK_PRIORITY_UNKNOW,
@@ -20,23 +22,22 @@ struct Gtask {
   char title[2 << 6];
   char *description;
   uint64_t project_id;
-  char created_at[20]; // Format: YYYY-MM-DD HH:MM 
-  char due_date[20];
+  char created_at[36]; // Format: YYYY-MM-DD HH:MM 
+  char due_date[36];
   enum TaskPriority priority;
   struct Gtag* tag; 
 };
+
+
 
 
 struct Gtask *parse_tasks(const char *input, size_t *out_count);     
 
 
 
-uint8_t record_new_task(char *title, 
-        char *desc, 
-        uint64_t *proj_id,
-        char *due_date,
-        enum TaskPriority priority,
-        struct Gtag *tag);
-       
+bool record_new_task(struct Gtask *task);
+bool update_task(struct Gtask *task, uint64_t line_to_update);       
+
+struct Gtask *new_default_task();
 
 #endif 

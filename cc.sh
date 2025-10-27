@@ -3,7 +3,7 @@ set -e
 
 COMPILER=gcc
 CXXFLAGS="-Wall -Wextra -Werror -g -O0 $(pkg-config --cflags gtk4)"
-LDFLAGS="$(pkg-config --libs gtk4) -ltag_c"
+LDFLAGS="$(pkg-config --libs gtk4) -ltag_c -lm"
 
 SRC_DIR=src
 BUILD_DIR=build

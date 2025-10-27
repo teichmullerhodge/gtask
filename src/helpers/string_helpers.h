@@ -5,4 +5,7 @@
 
 char* next_token(char **str, const char *delim);
 
+void sanitize_string(char *mut_str);
+
+
 #endif 

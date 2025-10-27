@@ -3,9 +3,12 @@
 
 #include <gtk/gtk.h> 
 
-void add_task(GtkWidget *task_list, uint64_t task_id, const char *task_name, const char *description, const char *created_at, const char *due_date);
+#include "../records/tasks.h"
 
-GtkWidget *create_task_item(uint64_t task_id, const char *name, const char *description, const char *created_at, const char *due_date);
+void add_task(GtkWidget *task_list, struct Gtask *task);
+
+bool update_task_item(struct Gtask *task, GtkWidget *task_list); 
+GtkWidget *create_task_item(struct Gtask* task, GtkWidget *task_list);
 
 GtkWidget *tasks_list_new();
 

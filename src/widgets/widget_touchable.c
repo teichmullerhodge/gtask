@@ -1,5 +1,5 @@
 #include "widget_touchable.h" 
-#include "../state/state.h"
+#include "../state/main_state.h"
 
 
 GtkWidget *touchable(const char *label, const char *icon, const char *cssclass){
