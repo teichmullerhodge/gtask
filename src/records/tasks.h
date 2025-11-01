@@ -30,13 +30,14 @@ struct Gtask {
 
 
 
-
+uint64_t generate_task_id();
 struct Gtask *parse_tasks(const char *input, size_t *out_count);     
 
 
 
 bool record_new_task(struct Gtask *task);
-bool update_task(struct Gtask *task, uint64_t line_to_update);       
+bool remove_task(uint64_t id);
+bool update_task(struct Gtask *task);       
 
 struct Gtask *new_default_task();
 

@@ -7,6 +7,7 @@
 #include "layout/layout.h" 
 #include <gtk/gtk.h>
 #include "widgets/widget_modal.h" 
+#include "helpers/gtk_helpers.h"
 
 static GtkWidget *stack; 
 
@@ -45,8 +46,10 @@ static void on_activate(GtkApplication *app) {
 
   GtkWidget *logo = gtk_image_new_from_file("resources/assets/gtask_logo.png");
   gtk_widget_set_size_request(logo, 48, 48);
+  
   GtkWidget *gtask_label = gtk_label_new("Gtask");
   gtk_widget_add_css_class(gtask_label, "gtask-title");
+
   GtkWidget *home_btn = touchable("Home", "view-grid-symbolic", "sidebar-btn");
   GtkWidget *tasks_btn = touchable("Tasks", "x-office-calendar-symbolic", "sidebar-btn");
   GtkWidget *projects_btn = touchable("Projects", "send-to-symbolic", "sidebar-btn");
@@ -62,22 +65,25 @@ static void on_activate(GtkApplication *app) {
   gtk_widget_set_name(change_theme_btn, "clear");
   g_signal_connect(change_theme_btn, "clicked", G_CALLBACK(change_theme), NULL);
 
-  
-  gtk_widget_set_valign(GTK_WIDGET(change_theme_btn), GTK_ALIGN_BASELINE_CENTER);
-  gtk_widget_set_halign(GTK_WIDGET(change_theme_btn), GTK_ALIGN_BASELINE_CENTER);
  
-  gtk_widget_set_vexpand(GTK_WIDGET(change_theme_btn), false);
-  gtk_widget_set_hexpand(GTK_WIDGET(change_theme_btn), false); 
+  set_positioning(change_theme_btn, &(struct WidgetPositioning) {
+    GTK_ALIGN_BASELINE_CENTER,
+    GTK_ALIGN_BASELINE_CENTER,
+    false, false 
+  });
+
 
   gtk_widget_set_size_request(GTK_WIDGET(change_theme_btn), 10, 10);
-   
-  gtk_list_box_append(GTK_LIST_BOX(sidebar), logo);
-  gtk_list_box_append(GTK_LIST_BOX(sidebar), gtask_label);
-  gtk_list_box_append(GTK_LIST_BOX(sidebar), home_btn); 
-  gtk_list_box_append(GTK_LIST_BOX(sidebar), tasks_btn); 
-  gtk_list_box_append(GTK_LIST_BOX(sidebar), projects_btn); 
-  gtk_list_box_append(GTK_LIST_BOX(sidebar), configs_btn); 
-  gtk_list_box_append(GTK_LIST_BOX(sidebar), change_theme_btn);
+  
+  GtkWidget *sidebar_widgets[] = {
+    logo, gtask_label, home_btn, tasks_btn,
+    projects_btn, configs_btn, change_theme_btn 
+  };
+
+  size_t sidebar_size = sizeof(sidebar_widgets) / sizeof(sidebar_widgets[0]);
+  gtk_helpers_list_box_append_many(sidebar, sidebar_widgets, sidebar_size);
+
+
 
   stack = gtk_stack_new();
   gtk_stack_set_transition_type(GTK_STACK(stack), GTK_STACK_TRANSITION_TYPE_SLIDE_LEFT_RIGHT);
@@ -85,11 +91,7 @@ static void on_activate(GtkApplication *app) {
   gtk_widget_add_css_class(GTK_WIDGET(stack), "main-stack");
 
 
-  GtkWidget *home_page = view_home_page();  
-
-
-                                             
-                                           
+  GtkWidget *home_page = view_home_page();      
   GtkWidget *tasks_page = gtk_label_new("📅 Tasks Page");
   GtkWidget *projects_page = gtk_label_new("📂 Projects Page");
   GtkWidget *config_page = gtk_label_new("⚙️ Configurations Page");
@@ -112,7 +114,6 @@ static void on_activate(GtkApplication *app) {
       .WIDGET_V_EXPAND = false,
       .WIDGET_H_EXPAND = false 
   });
-
 
   set_positioning(config_page, &(struct WidgetPositioning){
       .WIDGET_V_ALIGN = GTK_ALIGN_START,

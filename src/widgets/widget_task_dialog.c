@@ -129,7 +129,8 @@ void open_task_dialog(GtkWidget *btn, gpointer user_data){
     task_dial_state->color_dialog_btn = color_dialog_btn;
     task_dial_state->switch_widget = gtk_widget_get_last_child(done_switch);
     task_dial_state->due_date_calendar_widget = gtk_widget_get_last_child(calendar_form);
-    task_dial_state->is_new_task = new_task; 
+    task_dial_state->is_new_task = new_task;
+    task_dial_state->task_list_state = task_list_state;
     g_signal_connect(save_btn, "clicked", G_CALLBACK(save_task), task_dial_state);
     g_signal_connect(cancel_btn, "clicked", G_CALLBACK(dismiss_task), task_win);
 

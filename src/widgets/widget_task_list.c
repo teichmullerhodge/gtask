@@ -58,6 +58,7 @@ GtkWidget *create_task_item(struct Gtask *task, GtkWidget *task_list) {
 
   task_list_state->task_list = task_list; 
   task_list_state->task = task;
+  task_list_state->task_widget = box_task; 
   g_signal_connect(edit_btn, "clicked", G_CALLBACK(on_task_clicked), task_list_state);
 
 
@@ -66,6 +67,8 @@ GtkWidget *create_task_item(struct Gtask *task, GtkWidget *task_list) {
 
   gtk_widget_add_css_class(box_task, "task-container"); 
   GtkWidget *check_btn = gtk_check_button_new();
+  
+  gtk_check_button_set_active(GTK_CHECK_BUTTON(check_btn), task->done);
 
   GtkWidget *name_label = gtk_label_new(task->title);
   gtk_widget_add_css_class(name_label, "task-name-label");
@@ -122,12 +125,13 @@ GtkWidget *create_task_item(struct Gtask *task, GtkWidget *task_list) {
 
  
   g_signal_connect(tag_btn, "clicked", G_CALLBACK(on_tag_btn_clicked), info);
-  
 
   GtkWidget *delete_btn = touchable(NULL, "user-trash-symbolic", "task-delete-btn");
   gtk_widget_set_tooltip_text(delete_btn, "Delete a task");
   
   
+  g_signal_connect(delete_btn, "clicked", G_CALLBACK(on_delete_btn_clicked), task_list_state);
+  g_signal_connect(check_btn, "toggled", G_CALLBACK(on_check_btn_clicked), task_list_state);
   gtk_box_append(GTK_BOX(box_labels), name_label);  
   gtk_box_append(GTK_BOX(box_labels), description_label);
 
@@ -137,8 +141,15 @@ GtkWidget *create_task_item(struct Gtask *task, GtkWidget *task_list) {
   gtk_box_append(GTK_BOX(box_task), edit_btn); 
   gtk_box_append(GTK_BOX(box_task), tag_btn);
   gtk_box_append(GTK_BOX(box_task), delete_btn);
-  
 
+  gtk_widget_set_name(box_labels, "task_box_labels");
+  gtk_widget_set_name(name_label, "task_title");
+  gtk_widget_set_name(name_label, "task_description");
+  gtk_widget_set_name(check_btn, "task_check");
+
+  char box_id_name[2 << 9];
+  snprintf(box_id_name, sizeof(box_id_name), "box_%ld", task->id);
+  gtk_widget_set_name(GTK_WIDGET(box_task), box_id_name);
   return box_task;
 
 

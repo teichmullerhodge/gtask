@@ -1,6 +1,7 @@
 #ifndef TASK_DIALOG_STATE_H
 #define TASK_DIALOG_STATE_H 
 
+#include "task_list_state.h"
 #include <gtk/gtk.h>
 
 struct TaskDialogState {
@@ -18,6 +19,7 @@ struct TaskDialogState {
   GtkWidget *switch_widget;
   GtkWidget *due_date_calendar_widget;
   bool is_new_task;
+  struct TaskListState* task_list_state; 
 
 };
 

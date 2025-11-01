@@ -4,6 +4,7 @@
 #include <string.h>
 #include "../records/tags.h"
 #include "../records/tasks.h"
+#include "task_list_state.h"
 
 
 void dismiss_task(GtkWidget *btn, gpointer user_data){
@@ -84,7 +85,13 @@ bool save_task(GtkWidget *btn, gpointer user_data){
 
   if(!task_state->is_new_task) {
   
-    bool updated = update_task(task, task->id);
+    bool updated = update_task(task);
+    if(updated) {
+      // refresh the ui state to reflect the changes. 
+      bool refreshed = refresh_task(task_state->task_list_widget, task, task_state->task_list_state);
+      if(refreshed) printf("Task updated.\n");
+    }
+
     gtk_window_destroy(GTK_WINDOW(task_state->dialog_win));
     return updated; 
 
